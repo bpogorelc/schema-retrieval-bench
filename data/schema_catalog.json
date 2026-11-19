@@ -1,0 +1,389 @@
+[
+  {
+    "id": "tbl_orders",
+    "kind": "table",
+    "name": "orders",
+    "description": "One row per customer order including status, amounts, and key timestamps for fulfillment analytics.",
+    "tags": ["orders", "transactions", "ecommerce"]
+  },
+  {
+    "id": "tbl_order_items",
+    "kind": "table",
+    "name": "order_items",
+    "description": "Line items within an order with product, quantity, unit price, and discount amounts.",
+    "tags": ["orders", "line_items", "products"]
+  },
+  {
+    "id": "tbl_payments",
+    "kind": "table",
+    "name": "payments",
+    "description": "Payment attempts and captures linked to orders, including method, status, and settlement time.",
+    "tags": ["payments", "settlement", "finance"]
+  },
+  {
+    "id": "tbl_customers",
+    "kind": "table",
+    "name": "customers",
+    "description": "Customer master records with signup, segment, and lifecycle attributes.",
+    "tags": ["customers", "crm", "identity"]
+  },
+  {
+    "id": "tbl_subscriptions",
+    "kind": "table",
+    "name": "subscriptions",
+    "description": "Recurring subscription plans and billing cycles for members.",
+    "tags": ["subscriptions", "recurring", "membership"]
+  },
+  {
+    "id": "tbl_subscription_events",
+    "kind": "table",
+    "name": "subscription_events",
+    "description": "Lifecycle events for subscriptions such as start, pause, resume, and cancellation.",
+    "tags": ["subscriptions", "cancellation", "churn_events"]
+  },
+  {
+    "id": "tbl_products",
+    "kind": "table",
+    "name": "products",
+    "description": "Product catalog with category, brand, and active status.",
+    "tags": ["products", "catalog", "merchandising"]
+  },
+  {
+    "id": "tbl_shipments",
+    "kind": "table",
+    "name": "shipments",
+    "description": "Shipment records with carrier, tracking, and delivery timestamps.",
+    "tags": ["logistics", "shipping", "fulfillment"]
+  },
+  {
+    "id": "tbl_sessions",
+    "kind": "table",
+    "name": "web_sessions",
+    "description": "Anonymous and authenticated web sessions used for acquisition and conversion analysis.",
+    "tags": ["traffic", "sessions", "acquisition"]
+  },
+  {
+    "id": "tbl_returns",
+    "kind": "table",
+    "name": "returns",
+    "description": "Product returns and refunds linked to original order items.",
+    "tags": ["returns", "refunds", "reverse_logistics"]
+  },
+  {
+    "id": "col_orders_order_date",
+    "kind": "column",
+    "name": "orders.order_date",
+    "parent_table": "orders",
+    "description": "Calendar date when the customer placed the order (order creation date, not payment or ship date).",
+    "tags": ["orders", "date", "order_date", "placement"]
+  },
+  {
+    "id": "col_orders_created_at",
+    "kind": "column",
+    "name": "orders.created_at",
+    "parent_table": "orders",
+    "description": "Timestamp when the order row was inserted into the system.",
+    "tags": ["orders", "timestamp", "created_at"]
+  },
+  {
+    "id": "col_payments_payment_date",
+    "kind": "column",
+    "name": "payments.payment_date",
+    "parent_table": "payments",
+    "description": "Date the payment was successfully captured or settled. Differs from order placement date when payment is delayed.",
+    "tags": ["payments", "date", "payment_date", "settlement"]
+  },
+  {
+    "id": "col_payments_authorized_at",
+    "kind": "column",
+    "name": "payments.authorized_at",
+    "parent_table": "payments",
+    "description": "Timestamp when the payment authorization hold was placed, before capture.",
+    "tags": ["payments", "authorization", "timestamp"]
+  },
+  {
+    "id": "col_shipments_ship_date",
+    "kind": "column",
+    "name": "shipments.ship_date",
+    "parent_table": "shipments",
+    "description": "Date the parcel left the warehouse. Not the order or payment date.",
+    "tags": ["shipping", "date", "ship_date", "fulfillment"]
+  },
+  {
+    "id": "col_shipments_delivered_at",
+    "kind": "column",
+    "name": "shipments.delivered_at",
+    "parent_table": "shipments",
+    "description": "Timestamp when the carrier marked the shipment as delivered.",
+    "tags": ["shipping", "delivery", "timestamp"]
+  },
+  {
+    "id": "col_orders_gross_merchandise_value",
+    "kind": "column",
+    "name": "orders.gross_merchandise_value",
+    "parent_table": "orders",
+    "description": "Gross merchandise value (GMV) before discounts, returns, and payment fees.",
+    "tags": ["orders", "gmv", "gross", "revenue_related"]
+  },
+  {
+    "id": "col_orders_net_revenue",
+    "kind": "column",
+    "name": "orders.net_revenue",
+    "parent_table": "orders",
+    "description": "Net revenue after discounts and returns, before tax. Distinct from gross merchandise value.",
+    "tags": ["orders", "net", "revenue", "finance"]
+  },
+  {
+    "id": "col_orders_discount_amount",
+    "kind": "column",
+    "name": "orders.discount_amount",
+    "parent_table": "orders",
+    "description": "Total promotional discount applied at the order level.",
+    "tags": ["orders", "discount", "promotions"]
+  },
+  {
+    "id": "col_orders_tax_amount",
+    "kind": "column",
+    "name": "orders.tax_amount",
+    "parent_table": "orders",
+    "description": "Sales tax collected on the order.",
+    "tags": ["orders", "tax", "finance"]
+  },
+  {
+    "id": "col_orders_status",
+    "kind": "column",
+    "name": "orders.status",
+    "parent_table": "orders",
+    "description": "Order lifecycle status such as pending, paid, shipped, cancelled, or refunded.",
+    "tags": ["orders", "status", "lifecycle"]
+  },
+  {
+    "id": "col_customers_signup_date",
+    "kind": "column",
+    "name": "customers.signup_date",
+    "parent_table": "customers",
+    "description": "Date the customer created an account.",
+    "tags": ["customers", "acquisition", "signup"]
+  },
+  {
+    "id": "col_customers_segment",
+    "kind": "column",
+    "name": "customers.segment",
+    "parent_table": "customers",
+    "description": "Marketing segment label such as new, loyal, or at_risk.",
+    "tags": ["customers", "segment", "crm"]
+  },
+  {
+    "id": "col_customers_is_churned",
+    "kind": "column",
+    "name": "customers.is_churned",
+    "parent_table": "customers",
+    "description": "Boolean flag indicating the customer is considered churned based on inactivity rules, not subscription cancellation.",
+    "tags": ["customers", "churn", "inactivity"]
+  },
+  {
+    "id": "col_subscriptions_cancelled_at",
+    "kind": "column",
+    "name": "subscriptions.cancelled_at",
+    "parent_table": "subscriptions",
+    "description": "Timestamp when the customer cancelled their subscription plan.",
+    "tags": ["subscriptions", "cancellation", "churn_related"]
+  },
+  {
+    "id": "col_subscriptions_cancel_reason",
+    "kind": "column",
+    "name": "subscriptions.cancel_reason",
+    "parent_table": "subscriptions",
+    "description": "Self-reported or agent-coded reason for subscription cancellation.",
+    "tags": ["subscriptions", "cancellation", "reason"]
+  },
+  {
+    "id": "col_subscriptions_mrr",
+    "kind": "column",
+    "name": "subscriptions.mrr",
+    "parent_table": "subscriptions",
+    "description": "Monthly recurring revenue attributed to the active subscription.",
+    "tags": ["subscriptions", "mrr", "recurring_revenue"]
+  },
+  {
+    "id": "col_order_items_quantity",
+    "kind": "column",
+    "name": "order_items.quantity",
+    "parent_table": "order_items",
+    "description": "Units purchased for the line item.",
+    "tags": ["order_items", "quantity", "units"]
+  },
+  {
+    "id": "col_order_items_unit_price",
+    "kind": "column",
+    "name": "order_items.unit_price",
+    "parent_table": "order_items",
+    "description": "Unit list price before item-level discounts.",
+    "tags": ["order_items", "price", "pricing"]
+  },
+  {
+    "id": "col_products_category",
+    "kind": "column",
+    "name": "products.category",
+    "parent_table": "products",
+    "description": "Top-level product category used in merchandising reports.",
+    "tags": ["products", "category", "taxonomy"]
+  },
+  {
+    "id": "col_returns_refund_amount",
+    "kind": "column",
+    "name": "returns.refund_amount",
+    "parent_table": "returns",
+    "description": "Cash refunded to the customer for a return.",
+    "tags": ["returns", "refund", "finance"]
+  },
+  {
+    "id": "col_sessions_channel",
+    "kind": "column",
+    "name": "web_sessions.channel",
+    "parent_table": "web_sessions",
+    "description": "Acquisition channel such as paid search, organic, email, or direct.",
+    "tags": ["sessions", "channel", "acquisition"]
+  },
+  {
+    "id": "col_sessions_converted",
+    "kind": "column",
+    "name": "web_sessions.converted",
+    "parent_table": "web_sessions",
+    "description": "Whether the session resulted in a completed order.",
+    "tags": ["sessions", "conversion", "funnel"]
+  },
+  {
+    "id": "metric_gross_revenue",
+    "kind": "metric",
+    "name": "gross_revenue",
+    "description": "Sum of order gross merchandise value for completed orders before discounts and returns.",
+    "tags": ["metric", "gross", "revenue", "gmv"]
+  },
+  {
+    "id": "metric_net_revenue",
+    "kind": "metric",
+    "name": "net_revenue",
+    "description": "Sum of order net revenue after discounts and returns. Preferred for finance reporting over gross revenue.",
+    "tags": ["metric", "net", "revenue", "finance"]
+  },
+  {
+    "id": "metric_gmv",
+    "kind": "metric",
+    "name": "gmv",
+    "description": "Gross merchandise value alias used by marketplace reporting; equivalent to gross revenue before take rate.",
+    "tags": ["metric", "gmv", "gross", "marketplace"]
+  },
+  {
+    "id": "metric_net_sales",
+    "kind": "metric",
+    "name": "net_sales",
+    "description": "Net sales after discounts, returns, and allowances. Closely related to but not identical to net_revenue (excludes some fee adjustments).",
+    "tags": ["metric", "net_sales", "finance"]
+  },
+  {
+    "id": "metric_aov",
+    "kind": "metric",
+    "name": "average_order_value",
+    "description": "Mean order net revenue per completed order (AOV).",
+    "tags": ["metric", "aov", "orders"]
+  },
+  {
+    "id": "metric_median_order_value",
+    "kind": "metric",
+    "name": "median_order_value",
+    "description": "Median order net revenue per completed order. More robust than AOV for skewed baskets.",
+    "tags": ["metric", "median", "orders"]
+  },
+  {
+    "id": "metric_customer_churn_rate",
+    "kind": "metric",
+    "name": "customer_churn_rate",
+    "description": "Share of active customers marked churned by inactivity over a period. Not the same as subscription cancellation rate.",
+    "tags": ["metric", "churn", "customers", "retention"]
+  },
+  {
+    "id": "metric_subscription_cancellation_rate",
+    "kind": "metric",
+    "name": "subscription_cancellation_rate",
+    "description": "Share of active subscriptions that were cancelled in the period. Distinct from customer inactivity churn.",
+    "tags": ["metric", "cancellation", "subscriptions", "churn_related"]
+  },
+  {
+    "id": "metric_repeat_purchase_rate",
+    "kind": "metric",
+    "name": "repeat_purchase_rate",
+    "description": "Share of customers with two or more completed orders in a lookback window.",
+    "tags": ["metric", "retention", "repeat", "customers"]
+  },
+  {
+    "id": "metric_conversion_rate",
+    "kind": "metric",
+    "name": "session_conversion_rate",
+    "description": "Share of web sessions that convert to a completed order.",
+    "tags": ["metric", "conversion", "sessions", "funnel"]
+  },
+  {
+    "id": "metric_refund_rate",
+    "kind": "metric",
+    "name": "refund_rate",
+    "description": "Refunded amount as a share of gross revenue over the same period.",
+    "tags": ["metric", "refunds", "returns", "quality"]
+  },
+  {
+    "id": "metric_mrr",
+    "kind": "metric",
+    "name": "monthly_recurring_revenue",
+    "description": "Total monthly recurring revenue from active subscriptions at period end.",
+    "tags": ["metric", "mrr", "subscriptions"]
+  },
+  {
+    "id": "metric_units_sold",
+    "kind": "metric",
+    "name": "units_sold",
+    "description": "Sum of order item quantities for completed orders.",
+    "tags": ["metric", "units", "volume"]
+  },
+  {
+    "id": "metric_on_time_delivery_rate",
+    "kind": "metric",
+    "name": "on_time_delivery_rate",
+    "description": "Share of shipments delivered by the promised delivery date.",
+    "tags": ["metric", "shipping", "sla", "logistics"]
+  },
+  {
+    "id": "metric_cac",
+    "kind": "metric",
+    "name": "customer_acquisition_cost",
+    "description": "Marketing spend divided by new customers acquired in the period.",
+    "tags": ["metric", "cac", "acquisition", "marketing"]
+  },
+  {
+    "id": "metric_ltv",
+    "kind": "metric",
+    "name": "customer_lifetime_value",
+    "description": "Expected net revenue per customer over a fixed lifetime horizon.",
+    "tags": ["metric", "ltv", "customers", "finance"]
+  },
+  {
+    "id": "metric_attach_rate",
+    "kind": "metric",
+    "name": "attachment_rate",
+    "description": "Share of orders that include an add-on or accessory SKU.",
+    "tags": ["metric", "attach", "merchandising"]
+  },
+  {
+    "id": "metric_fill_rate",
+    "kind": "metric",
+    "name": "inventory_fill_rate",
+    "description": "Share of ordered units fulfilled from on-hand inventory without backorder.",
+    "tags": ["metric", "inventory", "fulfillment"]
+  },
+  {
+    "id": "metric_nps_proxy",
+    "kind": "metric",
+    "name": "post_purchase_nps",
+    "description": "Average post-purchase survey score used as an NPS proxy.",
+    "tags": ["metric", "nps", "experience"]
+  }
+]

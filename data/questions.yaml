@@ -1,0 +1,310 @@
+# DRAFT relevance labels for human review.
+# Grades: 0=irrelevant, 1=related, 2=relevant, 3=exact/perfect.
+# Split rule: all questions in an intent_family share the same split.
+
+label_status: draft
+relevance_scale: "0-3"
+notes: >
+  Labels are draft. Near-miss pairs (gross vs net, order_date vs payment_date,
+  churn vs cancellation) are intentional. Review before trusting held-out scores.
+
+questions:
+  # --- intent: net_revenue (dev) ---
+  - id: q01
+    intent_family: net_revenue
+    split: dev
+    text: "What is net revenue?"
+    relevant:
+      metric_net_revenue: 3
+      col_orders_net_revenue: 2
+      metric_net_sales: 1
+      metric_gross_revenue: 0
+
+  - id: q02
+    intent_family: net_revenue
+    split: dev
+    text: "Show me revenue after discounts and returns"
+    relevant:
+      metric_net_revenue: 3
+      col_orders_net_revenue: 2
+      metric_net_sales: 2
+      metric_gross_revenue: 1
+
+  # --- intent: gross_revenue (held_out) ---
+  - id: q03
+    intent_family: gross_revenue
+    split: held_out
+    text: "gross revenue"
+    relevant:
+      metric_gross_revenue: 3
+      metric_gmv: 2
+      col_orders_gross_merchandise_value: 2
+      metric_net_revenue: 0
+
+  - id: q04
+    intent_family: gross_revenue
+    split: held_out
+    text: "How much did we sell before discounts?"
+    relevant:
+      metric_gross_revenue: 3
+      metric_gmv: 2
+      col_orders_gross_merchandise_value: 2
+      metric_net_revenue: 1
+
+  # --- intent: gmv (dev) ---
+  - id: q05
+    intent_family: gmv
+    split: dev
+    text: "GMV"
+    relevant:
+      metric_gmv: 3
+      metric_gross_revenue: 2
+      col_orders_gross_merchandise_value: 2
+
+  # --- intent: order_date (dev) ---
+  - id: q06
+    intent_family: order_date
+    split: dev
+    text: "orders.order_date"
+    relevant:
+      col_orders_order_date: 3
+      col_orders_created_at: 1
+      col_payments_payment_date: 0
+
+  - id: q07
+    intent_family: order_date
+    split: dev
+    text: "When was the order placed?"
+    relevant:
+      col_orders_order_date: 3
+      col_orders_created_at: 2
+      col_payments_payment_date: 1
+      col_shipments_ship_date: 0
+
+  # --- intent: payment_date (held_out) ---
+  - id: q08
+    intent_family: payment_date
+    split: held_out
+    text: "payment date for an order"
+    relevant:
+      col_payments_payment_date: 3
+      col_payments_authorized_at: 1
+      col_orders_order_date: 1
+
+  - id: q09
+    intent_family: payment_date
+    split: held_out
+    text: "When was the payment captured or settled?"
+    relevant:
+      col_payments_payment_date: 3
+      col_payments_authorized_at: 2
+      col_orders_order_date: 0
+
+  # --- intent: ship_date (dev) ---
+  - id: q10
+    intent_family: ship_date
+    split: dev
+    text: "ship date"
+    relevant:
+      col_shipments_ship_date: 3
+      col_shipments_delivered_at: 1
+      col_orders_order_date: 0
+
+  # --- intent: customer_churn (dev) ---
+  - id: q11
+    intent_family: customer_churn
+    split: dev
+    text: "customer churn rate"
+    relevant:
+      metric_customer_churn_rate: 3
+      col_customers_is_churned: 2
+      metric_subscription_cancellation_rate: 1
+
+  - id: q12
+    intent_family: customer_churn
+    split: dev
+    text: "What share of customers went inactive?"
+    relevant:
+      metric_customer_churn_rate: 3
+      col_customers_is_churned: 2
+      metric_subscription_cancellation_rate: 1
+
+  # --- intent: subscription_cancel (held_out) ---
+  - id: q13
+    intent_family: subscription_cancel
+    split: held_out
+    text: "subscription cancellation rate"
+    relevant:
+      metric_subscription_cancellation_rate: 3
+      col_subscriptions_cancelled_at: 2
+      col_subscriptions_cancel_reason: 1
+      metric_customer_churn_rate: 1
+
+  - id: q14
+    intent_family: subscription_cancel
+    split: held_out
+    text: "How many members cancelled their plan?"
+    relevant:
+      metric_subscription_cancellation_rate: 3
+      col_subscriptions_cancelled_at: 2
+      tbl_subscription_events: 2
+      metric_customer_churn_rate: 0
+
+  # --- intent: aov (dev) ---
+  - id: q15
+    intent_family: aov
+    split: dev
+    text: "average order value"
+    relevant:
+      metric_aov: 3
+      metric_median_order_value: 1
+      col_orders_net_revenue: 1
+
+  - id: q16
+    intent_family: aov
+    split: dev
+    text: "What's the typical basket size in dollars?"
+    relevant:
+      metric_aov: 3
+      metric_median_order_value: 2
+      metric_units_sold: 1
+
+  # --- intent: median_order (held_out) ---
+  - id: q17
+    intent_family: median_order
+    split: held_out
+    text: "median order value"
+    relevant:
+      metric_median_order_value: 3
+      metric_aov: 1
+
+  # --- intent: conversion (dev) ---
+  - id: q18
+    intent_family: conversion
+    split: dev
+    text: "session conversion rate"
+    relevant:
+      metric_conversion_rate: 3
+      col_sessions_converted: 2
+      tbl_sessions: 1
+
+  # --- intent: mrr (dev) ---
+  - id: q19
+    intent_family: mrr
+    split: dev
+    text: "MRR"
+    relevant:
+      metric_mrr: 3
+      col_subscriptions_mrr: 2
+      tbl_subscriptions: 1
+
+  - id: q20
+    intent_family: mrr
+    split: dev
+    text: "monthly recurring revenue from subscriptions"
+    relevant:
+      metric_mrr: 3
+      col_subscriptions_mrr: 2
+      tbl_subscriptions: 1
+
+  # --- intent: refunds (held_out) ---
+  - id: q21
+    intent_family: refunds
+    split: held_out
+    text: "refund rate"
+    relevant:
+      metric_refund_rate: 3
+      col_returns_refund_amount: 2
+      tbl_returns: 1
+
+  # --- intent: multi_revenue_by_order_date (dev) ---
+  - id: q22
+    intent_family: multi_revenue_by_order_date
+    split: dev
+    text: "Net revenue by order date"
+    relevant:
+      metric_net_revenue: 3
+      col_orders_net_revenue: 2
+      col_orders_order_date: 3
+      col_payments_payment_date: 0
+
+  - id: q23
+    intent_family: multi_revenue_by_order_date
+    split: dev
+    text: "Daily net sales using when the order was placed"
+    relevant:
+      metric_net_revenue: 2
+      metric_net_sales: 3
+      col_orders_order_date: 3
+      col_payments_payment_date: 1
+
+  # --- intent: multi_churn_vs_cancel (held_out) ---
+  - id: q24
+    intent_family: multi_churn_vs_cancel
+    split: held_out
+    text: "Compare customer churn and subscription cancellations"
+    relevant:
+      metric_customer_churn_rate: 3
+      metric_subscription_cancellation_rate: 3
+      col_customers_is_churned: 2
+      col_subscriptions_cancelled_at: 2
+
+  # --- intent: multi_gmv_and_aov (dev) ---
+  - id: q25
+    intent_family: multi_gmv_and_aov
+    split: dev
+    text: "GMV and average order value together"
+    relevant:
+      metric_gmv: 3
+      metric_aov: 3
+      metric_gross_revenue: 2
+
+  # --- intent: payments_table (dev) ---
+  - id: q26
+    intent_family: payments_table
+    split: dev
+    text: "payments table"
+    relevant:
+      tbl_payments: 3
+      col_payments_payment_date: 1
+      col_payments_authorized_at: 1
+
+  # --- intent: customers_table (held_out) ---
+  - id: q27
+    intent_family: customers_table
+    split: held_out
+    text: "customers"
+    relevant:
+      tbl_customers: 3
+      col_customers_segment: 1
+      col_customers_signup_date: 1
+
+  # --- intent: ltv_cac (dev) ---
+  - id: q28
+    intent_family: ltv_cac
+    split: dev
+    text: "customer lifetime value and acquisition cost"
+    relevant:
+      metric_ltv: 3
+      metric_cac: 3
+      tbl_customers: 1
+
+  # --- intent: on_time_delivery (dev) ---
+  - id: q29
+    intent_family: on_time_delivery
+    split: dev
+    text: "on-time delivery rate"
+    relevant:
+      metric_on_time_delivery_rate: 3
+      col_shipments_delivered_at: 1
+      tbl_shipments: 1
+
+  # --- intent: units_sold (held_out) ---
+  - id: q30
+    intent_family: units_sold
+    split: held_out
+    text: "How many units did we sell?"
+    relevant:
+      metric_units_sold: 3
+      col_order_items_quantity: 2
+      tbl_order_items: 1
